@@ -19,9 +19,9 @@ public class Main {
         System.out.println("    Sum is " + (firstNumber+secondNumber));
         System.out.println("    Difference is "+ (firstNumber-secondNumber));
         System.out.println("    Multiplication is " + (firstNumber*secondNumber));
-        if (secondNumber==0)
+        //if (secondNumber==0)
             System.out.println("    You cannot divide by zero");
-        else
+        //else
             System.out.println("    Division is " + (firstNumber/secondNumber));
 
     }
