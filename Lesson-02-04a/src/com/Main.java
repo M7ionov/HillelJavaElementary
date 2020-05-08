@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 	    Scanner scanner = new Scanner(System.in);
-	    System.out.println(" Вывести на консоль графику (ширину и высоту задает пользователь) вида:");
+	    System.out.println("Вывести на консоль графику (ширину и высоту задает пользователь) вида:");
 	    System.out.println("а. Обычный прямоугольник");
 
 	    System.out.println("Please enter the width of the rectangle");
