@@ -11,8 +11,8 @@ public class Main {
         System.out.println("Please enter the number");
         int x = scanner.nextInt();
         if (x%2==0)
-            System.out.print("You entered the number" + x + "it is even");
+            System.out.print("You entered the number " + x + " - it is even");
             else
-                System.out.print("You entered the number\" + x + \"it is odd");
+                System.out.print("You entered the number " + x + " - it is odd");
     }
 }
