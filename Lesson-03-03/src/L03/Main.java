@@ -9,28 +9,34 @@ public class Main {
     public static void main(String[] args) {
         String[] surnames = new String[MAX_STUDENTS_IN_GROUP];
         int[][] marks = new int[MAX_STUDENTS_IN_GROUP][];
+        boolean[][] presence = new boolean[MAX_STUDENTS_IN_GROUP][];
 
-        addStudent("Ivanov", surnames, marks);
-        addStudent("Petrov", surnames, marks);
-        addStudent("Ivanov", surnames, marks);
-        print(surnames, marks);
-        delete("Ivanov", surnames, marks);
+        addStudent("Ivanov", surnames, marks, presence);
+        addStudent("Petrov", surnames, marks, presence);
+        addStudent("Ivanov", surnames, marks, presence);
+        print(surnames, marks, presence);
         System.out.println();
-        print(surnames, marks);
+        delete("Ivanov", surnames, marks, presence);
+        print(surnames, marks, presence);
         System.out.println();
-        addMarks("Petrov", surnames, marks );
-        addStudent("Sidorov", surnames, marks);
-        addMarks("Sidorov", surnames, marks );
+        addMarks("Petrov", surnames, marks, presence);
+        addStudent("Sidorov", surnames, marks, presence);
+        addMarks("Sidorov", surnames, marks, presence);
         System.out.println();
-        print(surnames, marks);
+        print(surnames, marks, presence);
         System.out.println();
-        contains("Petrov", surnames, marks);
+        contains("Petrov", surnames, marks, presence);
         System.out.println();
-        clearAll(surnames, marks);
-        print(surnames, marks);
+        clearAll(surnames, marks, presence);
+        print(surnames, marks, presence);
+        System.out.println();
+        addStudent("Zuganov", surnames, marks, presence);
+        addMarks("Zuganov", surnames, marks, presence);
+        print(surnames, marks, presence);
+        System.out.println();
     }
 
-    public static void addStudent(String newStudentName, String[] surnames, int[][] marks){
+    public static void addStudent(String newStudentName, String[] surnames, int[][] marks, boolean[][] presence){
         int nextPosition = -1;
         for (int i=0; i<surnames.length; i++){
             if (surnames[i]==null) {
@@ -44,17 +50,18 @@ public class Main {
         }
         surnames[nextPosition]=newStudentName;
         marks[nextPosition]=new int [NUMBER_OF_LESSONS];
+        presence[nextPosition]=new boolean [NUMBER_OF_LESSONS];
     }
-    public static void print(String[] surnames, int[][] marks){
+    public static void print(String[] surnames, int[][] marks, boolean[][] presence){
         System.out.println("Name\tMarks");
         for (int i=0; i<surnames.length; i++){
             if (surnames[i] == null){
                 continue;
             }
-            System.out.println(surnames[i]+"\t"+Arrays.toString(marks[i]));
+            System.out.println(surnames[i]+"\t"+Arrays.toString(marks[i])+"\n\t\t"+(Arrays.toString(presence[i])));
         }
     }
-    public static void delete(String toDelete, String[] surnames, int[][] marks){
+    public static void delete(String toDelete, String[] surnames, int[][] marks, boolean[][] presence){
         //1. find
         for (int i=0; i<surnames.length; i++){
             if (surnames[i]!=null && surnames[i].equalsIgnoreCase(toDelete)){
@@ -62,32 +69,39 @@ public class Main {
                 surnames[i]=null;
                 //3. delete marks
                 marks[i]=null;
+                presence[i]=null;
             }
         }
     }
-    public static void contains(String contain, String[] surnames, int[][] marks){
+    public static void contains(String contain, String[] surnames, int[][] marks, boolean[][] presence){
         for (int i=0; i<surnames.length; i++){
             if (surnames[i]!=null && surnames[i].equalsIgnoreCase(contain)){
                 System.out.println(surnames[i]);
                 System.out.println("His marks = "+Arrays.toString(marks[i]));
+                System.out.println("He present = "+Arrays.toString(presence[i]));
             }
             //else
             //    System.out.println("There is no such student"+i);
         }
     }
-    public static void addMarks(String toAddMarks, String[] surnames, int[][] marks){
-        for (int i=0; i<surnames.length; i++){
-            if (surnames[i]!=null && surnames[i].equalsIgnoreCase(toAddMarks)){
-                for (int j=0; j<NUMBER_OF_LESSONS; j++) {
-                    marks[i][j]=(int)(Math.random()*5);
+    public static void addMarks(String toAddMarks, String[] surnames, int[][] marks, boolean[][] presence) {
+        for (int i = 0; i < surnames.length; i++) {
+            if (surnames[i] != null && surnames[i].equalsIgnoreCase(toAddMarks)) {
+                for (int j = 0; j < NUMBER_OF_LESSONS; j++) {
+                    marks[i][j] = (int) (Math.random() * 5);
+                    if (marks[i][j] > 0)
+                        presence[i][j] = true;
+                    else
+                        presence[i][j] = false;
                 }
             }
         }
     }
-    public static void clearAll(String[] surnames, int[][] marks){
+    public static void clearAll(String[] surnames, int[][] marks, boolean[][] presence){
         for (int i=0; i<surnames.length; i++){
             surnames[i]=null;
             marks[i]=null;
+            presence[i]=null;
         }
     }
 }
