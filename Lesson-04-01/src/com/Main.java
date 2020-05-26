@@ -1,6 +1,8 @@
 package com;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.stream.IntStream;
 
 public class Main {
     final static int MAX_STUDENTS_IN_GROUP = 20;
@@ -16,6 +18,7 @@ public class Main {
         addMarks(students);
         print(students);
         Student student = findStudent("Sidorov", students);
+        assert student != null;
         setMark(student, 5, 5);
         contains(student);
         print(students);
@@ -23,27 +26,21 @@ public class Main {
         students = addStudent("Abramov", students);
         addMarks(students);
         print(students);
-
-
+        //students = sortAbc(students);
+        clearAll(students);
+        print(students);
 
     }
     public static Student[] addStudent(String newStudentName, Student[] oldStudents) {
         Student[] result = new Student[oldStudents.length +1];
-        for (int i=0; i<oldStudents.length; i++) {
-            result[i] = oldStudents[i];
-        }
+        System.arraycopy(oldStudents, 0, result, 0, oldStudents.length);
         result[oldStudents.length]= new Student(newStudentName);
         return result;
     }
 
     public static void print(Student[] students){
         System.out.println();
-        for (int i=0; i<students.length; i++){
-            if (students[i] == null){
-                continue;
-            }
-            System.out.println("Surname - " + students[i].surname+"\nPresence = "+(Arrays.toString(students[i].presence)+"\nMarks = \t"+Arrays.toString(students[i].marks )));
-        }
+        IntStream.range(0, students.length).filter(i -> students[i] != null).mapToObj(i -> "Surname - " + students[i].surname + "\nPresence = " + (Arrays.toString(students[i].presence) + "\nMarks = \t" + Arrays.toString(students[i].marks))).forEach(System.out::println);
     }
 
     public static void contains(Student student){
@@ -54,36 +51,30 @@ public class Main {
     }
 
     public static void addMarks(Student[] students) {
-        for (int i = 0; i < students.length ; i++) {
+        int i = 0;
+        while (i < students.length) {
             if (students[i] != null)  {
                 for (int j = 0; j < students[i].marks.length; j++) {
                     if (students[i].marks[j] == 0) {
                         students[i].marks[j] = (int) (Math.random() * 5);
-                        if (students[i].marks[j] > 0)
-                            students[i].presence[j] = true;
-                        else
-                            students[i].presence[j] = false;
+                        students[i].presence[j] = students[i].marks[j] > 0;
                     }
                 }
             }
+            i++;
         }
     }
 
-    public static Student[] sortAbc(String newStudentName, Student[] oldStudents) {
-        Student[] result = new Student[oldStudents.length +1];
-        for (int i=0; i<oldStudents.length; i++) {
-            result[i] = oldStudents[i];
-        }
-        result[oldStudents.length]= new Student(newStudentName);
+    public static Student[] sortAbc(Student[] oldStudents) {
+        Student[] result = new Student[oldStudents.length];
+        Arrays.sort(oldStudents);
+        System.arraycopy(oldStudents, 0, result, 0, result.length);
         return result;
+
     }
-     /*   public static void clearAll(String[] surnames, int[][] marks, boolean[][] presence){
-            for (int i=0; i<surnames.length; i++){
-                surnames[i]=null;
-                marks[i]=null;
-               presence[i]=null;
-            }
-        }*/
+    public static void clearAll(Student[] students){
+        Arrays.fill(students, null);
+    }
 
     public static void delete(String toDelete, Student[] students){
         for (int i=0; i<students.length; i++){
@@ -98,9 +89,9 @@ public class Main {
     }
 
     public static Student findStudent(String surname, Student[] students){
-        for (int i=0; i<students.length; i++){
-            if (students[i]!=null && students[i].surname.equalsIgnoreCase(surname)){
-                return students[i];
+        for (Student student : students) {
+            if (student != null && student.surname.equalsIgnoreCase(surname)) {
+                return student;
             }
         }
         return null;
