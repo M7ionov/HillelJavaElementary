@@ -15,7 +15,7 @@ public class Student {
     }
 
     public void greet() {
-        System.out.println("Student");
+        System.out.println("Student"+this.name);
     }
 
     @Override

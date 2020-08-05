@@ -48,21 +48,21 @@ public class Container implements Collection {
     }
 
     @Override
-    public boolean remove(Object other){
+    public boolean remove(Object other) {
         int removeFlag = 0;
         for (int i = 0; i < data.length; i++)
             if (data[i].equals(other)) {
-                data[i] = null;
+//                data[i] = null;
                 removeFlag = i;
             }
-        if (removeFlag != 0){
+        if (removeFlag != 0) {
             Object[] temporaryData = new Object[data.length - 1];
             for (int i = 0; i < (data.length); i++) {
-                if (removeFlag > i){
+                if (removeFlag > i) {
                     temporaryData[i] = data[i];
                 } else {
-                    if (removeFlag < i){
-                        temporaryData[i-1] = data[i];
+                    if (removeFlag < i) {
+                        temporaryData[i - 1] = data[i];
                     }
                 }
             }
@@ -75,7 +75,7 @@ public class Container implements Collection {
     @Override
     public boolean addAll(Collection collection) {
         Object[] objects = collection.toArray();
-        for (Object object: objects) {
+        for (Object object : objects) {
             add(object);
         }
         return true;
@@ -91,74 +91,50 @@ public class Container implements Collection {
         return null;
     }
 
-    @Override
-    public Object[] toArray() {
-        final Object[] dest = new Object[data.length];
-        System.arraycopy(data, 0, dest, 0, data.length);
-        return dest;
-    }
-
-    @Override
-    public Object[] toArray(Object[] objects) {
-        return new Object[0];
-    }
-
     public Object get(int i) {
         return data[i];
     }
 
-
-//    @Override
-//    public boolean retainAll(Collection collection) {
-//        return false;
-//    }
-
-    public void retainAll(Container container) {
-        Object[] temporaryData = new Object[container.data.length];
-        for (int i = 0; i < container.data.length; i++) {
-//            System.out.println(container.data[i]);
-            if ((container.data[i] != null) || (contains(container.data[i]))) {
-                temporaryData[i] = container.data[i];
+    @Override
+    public boolean removeAll(Collection collection) {
+        Object[] objects = collection.toArray();
+        boolean removeFlag = false;
+        for (int i = data.length - 1; i >= 0; i--) {
+            if (collection.contains(data[i])) {
+                remove(data[i]);
+                removeFlag = true;
             }
-
         }
-        data = temporaryData;
-//        return false
+        return removeFlag;
     }
 
     @Override
-    public boolean removeAll(Collection collection) {
-        return false;
+    public boolean retainAll(Collection collection) {
+        Object[] objects = collection.toArray();
+        boolean removeFlag = false;
+//        System.out.println(data.length + "-");
+//        for (int i = 0; i < data.length; i++) {
+        for (int i = data.length - 1; i > -1; i--) {
+//            System.out.println(data[i] + " - " + i + "-" + removeFlag);
+            if (!collection.contains(data[i])) {
+                remove(data[i]);
+                removeFlag = true;
+            }
+//            System.out.println(data[i] + " - " + i + "-" + removeFlag);
+        }
+        return removeFlag;
     }
 
     @Override
     public boolean containsAll(Collection collection) {
-        return false;
-    }
-
-
-    public void removeAll(Container container) {
-        Object[] temporaryData = new Object[data.length];
-        temporaryData = data;
-        for (int i = 0; i < container.data.length; i++) {
-//            System.out.println(container.data[i]);
-//            if ((contains(container.data[i])) || (data[i] != null)){
-            if (contains(container.data[i])) {
-//                System.out.println(contains(container.data[i]) + "=" + container.data[i]);
-                remove(container.data[i]);
-//                temporaryData[i] = data[i];
+        Object[] objects = collection.toArray();
+        boolean containsFlag = true;
+        for (int i = 0; i < data.length; i++) {
+            if (!collection.contains(data[i])) {
+                containsFlag = false;
             }
         }
-//        data = temporaryData;
-    }
-
-    public boolean containsAll(Container container) {
-        for (int i = 0; i < container.data.length; i++) {
-            if (!contains(container.data[i])) {
-                return false;
-            }
-        }
-        return true;
+        return containsFlag;
     }
 
     @Override
@@ -171,6 +147,18 @@ public class Container implements Collection {
             result = result.substring(0, result.length() - 2);
         }
         return "[" + result + "]";
+    }
+
+    @Override
+    public Object[] toArray() {
+        final Object[] dest = new Object[data.length];
+        System.arraycopy(data, 0, dest, 0, data.length);
+        return dest;
+    }
+
+    @Override
+    public Object[] toArray(Object[] objects) {
+        return new Object[0];
     }
 
 }
