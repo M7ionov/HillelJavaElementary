@@ -115,12 +115,12 @@ public class Container implements Collection {
 //        System.out.println(data.length + "-");
 //        for (int i = 0; i < data.length; i++) {
         for (int i = data.length - 1; i > -1; i--) {
-//            System.out.println(data[i] + " - " + i + "-" + removeFlag);
+            System.out.println(data[i] + " - " + i + "-" + removeFlag);
             if (!collection.contains(data[i])) {
                 remove(data[i]);
                 removeFlag = true;
             }
-//            System.out.println(data[i] + " - " + i + "-" + removeFlag);
+            System.out.println(data[i] + " - " + i + "-" + removeFlag);
         }
         return removeFlag;
     }

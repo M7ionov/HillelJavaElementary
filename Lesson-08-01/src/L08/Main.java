@@ -41,9 +41,9 @@ public class Main {
 //        students3.add(new Student("ivanidze"));
 //        students3.add(new Student("sidoridze"));
 
-//        System.out.println(students.retainAll(students2));
-//        System.out.println(students);
-//        System.out.println("retainAll = " + students.size());
+        System.out.println(students.retainAll(students2));
+        System.out.println(students);
+        System.out.println("retainAll = " + students.size());
 
 //        System.out.println(students.removeAll(students2));
 //        System.out.println(students);
